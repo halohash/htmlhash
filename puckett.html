@@ -1,0 +1,38 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+  <title>OWOT Service</title>
+</head>
+<body>
+  <h1>OWOT Service Running...</h1>
+
+  <script>
+    const ws = new WebSocket("wss://ourworldoftext.com/ws/");
+
+    ws.onopen = () => {
+      console.log("Connected to OWOT WebSocket");
+      start();
+    };
+
+    ws.onerror = (err) => {
+      console.error("WebSocket error:", err);
+    };
+
+    function start() {
+      setInterval(() => {
+
+        const payload = {"kind":"write","edits":[[-2,0,2,3,1775777082698,"s",313],[-2,0,2,4,1775777082698,"a",314],[-2,0,2,5,1775777082698,"m",315],[-2,0,2,6,1775777082698," ",316],[-2,0,2,7,1775777082698,"p",317],[-2,0,2,8,1775777082698,"u",318],[-2,0,2,9,1775777082698,"c",319],[-2,0,2,10,1775777082698,"k",320],[-2,0,2,11,1775777082698,"e",321],[-2,0,2,12,1775777082698,"t",322],[-2,0,2,13,1775777082698,"t",323]]};
+ws.onclose = () => {
+    alert("Connection closed");
+    window.location.reload()
+};
+
+        if (ws.readyState === WebSocket.OPEN) {
+          ws.send(JSON.stringify(payload));
+        }
+      }, 1000);
+    }
+  </script>
+</body>
+</html>
