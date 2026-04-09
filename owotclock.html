@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>OWOT Service</title>
+</head>
+<body>
+  <h1>OWOT Service Running...</h1>
+
+  <script>
+    const ws = new WebSocket("wss://ourworldoftext.com/ws/");
+
+    ws.onopen = () => {
+      console.log("Connected to OWOT WebSocket");
+      startClock();
+    };
+
+    ws.onerror = (err) => {
+      console.error("WebSocket error:", err);
+    };
+
+    function startClock() {
+      setInterval(() => {
+        const now = new Date();
+
+        const h = String(now.getHours()).padStart(2, "0");
+        const m = String(now.getMinutes()).padStart(2, "0");
+        const s = String(now.getSeconds()).padStart(2, "0");
+
+        const payload = {
+          kind: "write",
+          edits: [
+            [-2,-1,0,12,Date.now(), h[0],1],
+            [-2,-1,0,13,Date.now(), h[1],2],
+            [-2,-1,0,14,Date.now(), ":",3],
+            [-2,-1,0,15,Date.now(), m[0],4],
+            [-2,0,0,0,Date.now(), m[1],5],
+            [-2,0,0,1,Date.now(), ":",6],
+            [-2,0,0,2,Date.now(), s[0],7],
+            [-2,0,0,3,Date.now(), s[1],8]
+          ]
+        };
+
+        if (ws.readyState === WebSocket.OPEN) {
+          ws.send(JSON.stringify(payload));
+        }
+      }, 1000);
+    }
+  </script>
+</body>
+</html>
