@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Oh...</title>
+    <style>
+        @font-face {
+            font-family: "finkcas";
+            src: url("https://file.garden/aUYIWVAKvQxCBY-_/database/fonts/casual.ttf");
+        }
+
+        * {
+            font-family: "finkcas", sans-serif;
+        }
+    </style>
+</head>
+<body>
+    <p>whaddup its me ya boi</p><form action="https://www.ourworldofpixels.com/">
+<button type="submit" formtarget="_blank">*=* Click here *=*</button>
+</form>
+<h1>this fink is casual of the nexus s 4g google</h1>
+<big>June 1, 2026, 12:00 PST</big>
+<textarea>
+// Connect to OWOT WebSocket
+const ws = new WebSocket("wss://ourworldoftext.com/ws/");
+
+// Track connection state
+let connected = false;
+
+ws.onopen = () => {
+    console.log("Connected to OWOT WebSocket");
+    connected = true;
+};
+
+ws.onclose = () => {
+    console.log("Disconnected from OWOT");
+    connected = false;
+};
+
+ws.onerror = (err) => {
+    console.error("WebSocket error:", err);
+};
+
+// Send a character to OWOT
+function writeCharToXY(char, color, x, y) {
+    if (!connected) return;
+
+    const packet = {
+        kind: "write",
+        x: x,
+        y: y,
+        char: char,
+        color: color
+    };
+
+    ws.send(JSON.stringify(packet));
+}
+
+// Write string helper
+function writeText(text, posList, colorList) {
+    if (typeof text !== 'string') {
+        console.error("writeText expects a string");
+        return;
+    }
+    let OGXpos = posList[0];
+    for (let char of text) {
+        writeCharToXY(char, colorList, posList[0], posList[1]);
+        if (char === "\n") {
+            posList[1] += 1;
+            posList[0] = OGXpos;
+        } else {
+            posList[0] += 1;
+        }
+    }
+}
+
+// Time formatting
+function getFormattedUTCTime() {
+    const now = new Date();
+    const year = now.getUTCFullYear();
+    const month = String(now.getUTCMonth() + 1).padStart(2, '0');
+    const day = String(now.getUTCDate()).padStart(2, '0');
+    let hours = now.getUTCHours();
+    const minutes = String(now.getUTCMinutes()).padStart(2, '0');
+    const seconds = String(now.getUTCSeconds()).padStart(2, '0');
+    const ampm = hours >= 12 ? 'PM' : 'AM';
+    hours = hours % 12 || 12;
+    return `${year}-${month}-${day} ${hours}:${minutes}:${seconds} ${ampm}`;
+}
+
+// Stylize numbers
+function stylize(text) {
+    return text.toString()
+        .replaceAll("0", "🯰")
+        .replaceAll("1", "🯱")
+        .replaceAll("2", "🯲")
+        .replaceAll("3", "🯳")
+        .replaceAll("4", "🯴")
+        .replaceAll("5", "🯵")
+        .replaceAll("6", "🯶")
+        .replaceAll("7", "🯷")
+        .replaceAll("8", "🯸")
+        .replaceAll("9", "🯹");
+}
+
+let refreshCounter = 0;
+
+// Main loop
+setInterval(function () {
+    if (!connected) return;
+
+    writeText("👑  The Great And Almighty Clock Of Our World Of Text 👑", [-27, 14], [0, 0, 0]);
+    writeText("🕖 Current UTC Time: " + stylize(getFormattedUTCTime()), [-27, 15], [0, 0, 0]);
+    writeText("ℹ Status: Online", [-27, 16], [0, 0, 0]);
+    writeText("⚔ Last Raided By: some random idiot", [-27, 17], [0, 0, 0]);
+    writeText("🔃 Refresh Count: " + refreshCounter, [-27, 18], [0, 0, 0]);
+    writeText("⚙ Clock Engine Version: 2.3", [-27, 19], [0, 0, 0]);
+
+    refreshCounter += 1;
+}, 1000);
+</textarea>
+</body>
+</html>
