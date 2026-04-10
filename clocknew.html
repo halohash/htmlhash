@@ -11,7 +11,7 @@ ws.onopen = () => {
 };
 
 ws.onclose = () => {
-    document.title = "Disconnected from OWOT"
+    document.title = "Disconnected from OWOT";
     connected = false;
 };
 
@@ -21,7 +21,7 @@ ws.onerror = (err) => {
 
 // Send a character to OWOT
 function writeCharToXY(char, color, x, y) {
-    if (!connected) return;
+    if (!connected || ws.readyState !== WebSocket.OPEN) return;
 
     const packet = {
         kind: "write",
@@ -34,21 +34,26 @@ function writeCharToXY(char, color, x, y) {
     ws.send(JSON.stringify(packet));
 }
 
-// Write string helper
-function writeText(text, posList, colorList) {
+// Write string helper (FIXED)
+function writeText(text, posList, color) {
     if (typeof text !== 'string') {
         console.error("writeText expects a string");
         return;
     }
-    let OGXpos = posList[0];
+
+    let x = posList[0];
+    let y = posList[1];
+    const startX = x;
+
     for (let char of text) {
-        writeCharToXY(char, colorList, posList[0], posList[1]);
         if (char === "\n") {
-            posList[1] += 1;
-            posList[0] = OGXpos;
-        } else {
-            posList[0] += 1;
+            y += 1;
+            x = startX;
+            continue;
         }
+
+        writeCharToXY(char, color, x, y);
+        x += 1;
     }
 }
 
@@ -87,13 +92,13 @@ let refreshCounter = 0;
 setInterval(function () {
     if (!connected) return;
 
-    writeText("https://halohash.github.io/worldofhash", [-27, 14], [0, 0, 0]);
-    writeText("Current UTC Time: " + stylize(getFormattedUTCTime()), [-27, 15], [0, 0, 0]);
-    writeText("Status: Online", [-27, 16], [0, 0, 0]);
-    writeText("Last Raided By: Kurdistan/PKK", [-27, 17], [0, 0, 0]);
-    writeText("Refresh Count: " + refreshCounter, [-27, 18], [0, 0, 0]);
-    writeText("Clock Engine Version: 2.3", [-27, 19], [0, 0, 0]);
-    writeText("HashNews: after 10 years rec room is expected to die on its 10th year", [-27, 20], [0, 0, 0]);
+    writeText("https://halohash.github.io/worldofhash", [-27, 14], 0);
+    writeText("Current UTC Time: " + stylize(getFormattedUTCTime()), [-27, 15], 0);
+    writeText("Status: Online", [-27, 16], 0);
+    writeText("Last Raided By: Kurdistan/PKK", [-27, 17], 0);
+    writeText("Refresh Count: " + refreshCounter, [-27, 18], 0);
+    writeText("Clock Engine Version: 2.3", [-27, 19], 0);
+    writeText("HashNews: after 10 years rec room is expected to die on its 10th year", [-27, 20], 0);
 
     refreshCounter += 1;
 }, 1000);
