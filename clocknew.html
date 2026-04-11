@@ -1,7 +1,9 @@
 <input id="commercialInput" type="text" placeholder="Enter commercial here..." style="position:fixed; top:10px; left:10px; z-index:1000; width:300px;">
 <button onclick="updateCommercial()" style="position:fixed; top:10px; left:320px; z-index:1000;">
     Set
-</button><hr><button onclick="startClock()" style="position:fixed; top:10px; left:320px; z-index:1000;">
+</button>
+<hr>
+<br><button onclick="startClock()" style="position:fixed; top:10px; left:320px; z-index:1000;">
     Start
 </button>
 <script>
@@ -134,7 +136,7 @@ startClock = function() {
     setInterval(function () {
     if (!connected) return;
 
-    writeText("|| https://halohash.github.io/worldofhash || " + stylize(getFormattedUTCTime()) + " || JOIN NOW! || AD: " + commercial, [3, -5], 0);
+    writeText("|| https://halohash.github.io/worldofhash || " + stylize(getFormattedUTCTime()) + " || JOIN NOW! || AD: " + commercial, [3, -10], 0);
     refreshCounter += 1;
 }, 1000);
 }
