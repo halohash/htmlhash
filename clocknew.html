@@ -1,7 +1,17 @@
-
+<input id="commercialInput" type="text" placeholder="Enter commercial here..." style="position:fixed; top:10px; left:10px; z-index:1000; width:300px;">
+<button onclick="updateCommercial()" style="position:fixed; top:10px; left:320px; z-index:1000;">
+    Set
+</button>
 <script>
+let commercial = "buttersock puckett";
 // Connect to OWOT WebSocket
 const ws = new WebSocket("wss://ourworldoftext.com/ws/");
+function updateCommercial() {
+    const input = document.getElementById("commercialInput").value;
+    if (input.trim() !== "") {
+        commercial = input;
+    }
+}
 
 // Track connection state
 let connected = false;
@@ -77,7 +87,7 @@ function writeText(text, posList, color) {
             color || 0
         ]);
 
-        x++;
+        y++;
     }
 
     ws.send(JSON.stringify({
@@ -122,13 +132,13 @@ setInterval(function () {
     if (!connected) return;
 
     writeText("https://halohash.github.io/worldofhash", [-27, 14], 0);
-    writeText("Current UTC Time: " + stylize(getFormattedUTCTime()), [-27, 15], 0);
-    writeText("Status: Online", [-27, 16], 0);
-    writeText("Last Raided By: Kurdistan/PKK", [-27, 17], 0);
-    writeText("Refresh Count: " + refreshCounter, [-27, 18], 0);
-    writeText("Clock Engine Version: 2.3", [-27, 19], 0);
-    writeText("HashNews: after 10 years rec room is expected to die on its 10th year", [-27, 20], 0);
-
+    writeText("Current UTC Time: " + stylize(getFormattedUTCTime()), [-28, 14], 0);
+    writeText("Status: Online", [-29, 16], 0);
+    writeText("Last Raided By: Kurdistan/PKK", [-30, 14], 0);
+    writeText("Refresh Count: " + refreshCounter, [-31, 14], 0);
+    writeText("Clock Engine Version: 2.3", [-32, 14], 0);
+    writeText("HashNews: after 10 years rec room is expected to die on its 10th year", [-33, 14], 0);
+    writeText("Current Commercial: " + commercial, [-34, 14], 0);
     refreshCounter += 1;
 }, 1000);
 </script>
