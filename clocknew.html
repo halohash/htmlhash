@@ -1,3 +1,4 @@
+
 <script>
 // Connect to OWOT WebSocket
 const ws = new WebSocket("wss://ourworldoftext.com/ws/");
@@ -23,12 +24,18 @@ ws.onerror = (err) => {
 function writeCharToXY(char, color, x, y) {
     if (!connected || ws.readyState !== WebSocket.OPEN) return;
 
+    const tileX = Math.floor(x / 16);
+    const tileY = Math.floor(y / 16);
+
+    // Proper modulo for negatives
+    const charX = ((x % 16) + 16) % 16;
+    const charY = ((y % 16) + 16) % 16;
+
     const packet = {
         kind: "write",
-        x: x,
-        y: y,
-        char: char,
-        color: color
+        edits: [
+            [tileX, tileY, charX, charY, char.charCodeAt(0), color || 0]
+        ]
     };
 
     ws.send(JSON.stringify(packet));
