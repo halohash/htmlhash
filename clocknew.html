@@ -26,22 +26,26 @@ function writeCharToXY(char, color, x, y) {
 
     const tileX = Math.floor(x / 16);
     const tileY = Math.floor(y / 16);
-
-    // Proper modulo for negatives
     const charX = ((x % 16) + 16) % 16;
     const charY = ((y % 16) + 16) % 16;
 
-    const packet = {
-        kind: "write",
-        edits: [
-            [tileX, tileY, charX, charY, char.charCodeAt(0), color || 0]
-        ]
-    };
+    const edit = [
+        tileX,
+        tileY,
+        charX,
+        charY,
+        Date.now(),   // ✅ required timestamp
+        char,         // ✅ actual character (string)
+        color || 0
+    ];
 
-    ws.send(JSON.stringify(packet));
+    ws.send(JSON.stringify({
+        kind: "write",
+        edits: [edit]
+    }));
 }
 
-// Write string helper (FIXED again)
+// Write string helper (FIXED again) fuck
 function writeText(text, posList, color) {
     if (!connected || ws.readyState !== WebSocket.OPEN) return;
 
@@ -68,14 +72,14 @@ function writeText(text, posList, color) {
             tileY,
             charX,
             charY,
-            char.charCodeAt(0),
+            Date.now(), // ✅ timestamp
+            char,       // ✅ string, not charCode
             color || 0
         ]);
 
         x++;
     }
 
-    // 🔑 ONE send, MANY edits
     ws.send(JSON.stringify({
         kind: "write",
         edits: edits
