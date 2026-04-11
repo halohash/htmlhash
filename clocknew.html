@@ -41,27 +41,45 @@ function writeCharToXY(char, color, x, y) {
     ws.send(JSON.stringify(packet));
 }
 
-// Write string helper (FIXED)
+// Write string helper (FIXED again)
 function writeText(text, posList, color) {
-    if (typeof text !== 'string') {
-        console.error("writeText expects a string");
-        return;
-    }
+    if (!connected || ws.readyState !== WebSocket.OPEN) return;
 
     let x = posList[0];
     let y = posList[1];
     const startX = x;
 
+    const edits = [];
+
     for (let char of text) {
         if (char === "\n") {
-            y += 1;
+            y++;
             x = startX;
             continue;
         }
 
-        writeCharToXY(char, color, x, y);
-        x += 1;
+        const tileX = Math.floor(x / 16);
+        const tileY = Math.floor(y / 16);
+        const charX = ((x % 16) + 16) % 16;
+        const charY = ((y % 16) + 16) % 16;
+
+        edits.push([
+            tileX,
+            tileY,
+            charX,
+            charY,
+            char.charCodeAt(0),
+            color || 0
+        ]);
+
+        x++;
     }
+
+    // 🔑 ONE send, MANY edits
+    ws.send(JSON.stringify({
+        kind: "write",
+        edits: edits
+    }));
 }
 
 // Time formatting
