@@ -131,14 +131,12 @@ let refreshCounter = 0;
 setInterval(function () {
     if (!connected) return;
 
-    writeText("https://halohash.github.io/worldofhash", [-27, 14], 0);
-    writeText("Current UTC Time: " + stylize(getFormattedUTCTime()), [-28, 14], 0);
-    writeText("Status: Online", [-29, 16], 0);
-    writeText("Last Raided By: Kurdistan/PKK", [-30, 14], 0);
-    writeText("Refresh Count: " + refreshCounter, [-31, 14], 0);
-    writeText("Clock Engine Version: 2.3", [-32, 14], 0);
-    writeText("HashNews: after 10 years rec room is expected to die on its 10th year", [-33, 14], 0);
-    writeText("Current Commercial: " + commercial, [-34, 14], 0);
+    writeText("https://halohash.github.io/worldofhash", [-33, -50], 0);
+    writeText("Current UTC Time: " + stylize(getFormattedUTCTime()), [-28, -50], 0);
+    writeText("Last Raided By: Kurdistan/PKK", [-30, -50], 0);
+    /* writeText("Refresh Count: " + refreshCounter, [-31, -50], 0); */
+    writeText("HashNews: after 10 years rec room is expected to die on its 10th year", [-28, -50], 0);
+    writeText("Sponsored By: " + commercial, [-27, -50], 0);
     refreshCounter += 1;
 }, 1000);
 </script>
