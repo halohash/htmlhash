@@ -1,6 +1,8 @@
 <input id="commercialInput" type="text" placeholder="Enter commercial here..." style="position:fixed; top:10px; left:10px; z-index:1000; width:300px;">
 <button onclick="updateCommercial()" style="position:fixed; top:10px; left:320px; z-index:1000;">
     Set
+</button><hr><button onclick="startClock()" style="position:fixed; top:10px; left:320px; z-index:1000;">
+    Start
 </button>
 <script>
 let commercial = "buttersock puckett";
@@ -128,14 +130,12 @@ function stylize(text) {
 let refreshCounter = 0;
 
 // Main loop
-setInterval(function () {
+startClock = function() {
+    setInterval(function () {
     if (!connected) return;
 
-    writeText("https://halohash.github.io/worldofhash", [-30, -0], 0);
-    writeText("Current UTC Time: " + stylize(getFormattedUTCTime()), [-31, -0], 0);
-    writeText("Last Raided By: Kurdistan/PKK", [-32, -0], 0);
-    /* writeText("Refresh Count: " + refreshCounter, [-33, -0], 0); */
-    writeText("Sponsored By: " + commercial, [-34, -0], 0);
+    writeText("|| https://halohash.github.io/worldofhash || " + stylize(getFormattedUTCTime()) + " || JOIN NOW! || AD: " + commercial, [3, -5], 0);
     refreshCounter += 1;
 }, 1000);
+}
 </script>
